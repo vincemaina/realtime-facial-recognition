@@ -15,7 +15,7 @@ export function ResizedFrame(props: Props) {
     useEffect(() => {
         const imageSize = props.imageSize;
         
-        if (props.canvasRef.current) {
+        if (props.canvasRef.current && props.canvasRef.current.width > 0) {
             // Resize the image to 16x16 pixels
             const canvas = props.canvasRef.current;
             const resizedCanvas = props.resizedImageRef.current!;

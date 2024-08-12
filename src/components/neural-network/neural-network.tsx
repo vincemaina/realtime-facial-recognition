@@ -9,6 +9,7 @@ interface Props {
     outputLayer: number[] | null;
     setOutputLayer: React.Dispatch<React.SetStateAction<number[] | null>>;
     expectedOutput: number[] | null;
+    isTraining: boolean;
 }
 
 export function NeuralNetwork(props: Props) {
@@ -50,6 +51,7 @@ export function NeuralNetwork(props: Props) {
     const outputLayer = props.outputLayer;
     const expectedOutput = props.expectedOutput;
 
+    // Feedforward after image data is received
     useEffect(() => {
         if (!weights || !biases || !inputLayer) {
             return;
@@ -76,18 +78,18 @@ export function NeuralNetwork(props: Props) {
         }
 
         props.setOutputLayer(activations[activations.length - 1]);
+    }, [inputLayer]);
 
-    }, [inputLayer, weights, biases]);
-
-    // Backpropagation for training after each drawing
-    const train = (expectedOutput: number[]) => {
+    // Backpropagation for training after output is received
+    function train(expectedOutput: number[]) {
         if (!weights || !biases || !inputLayer || !outputLayer) {
             return;
         }
 
+        // TODO: This is being done twice, refactor
         const activations: number[][] = [];
         activations.push(inputLayer);
-        
+
         // Feedforward (same as above)
         for (let i = 0; i < weights.length; i++) {
             const layerWeights = weights[i];
@@ -104,6 +106,8 @@ export function NeuralNetwork(props: Props) {
 
             activations.push(newActivations);
         }
+        // End of feedforward
+        
 
         // Calculate the deltas (errors) for the output layer
         let deltas = activations[activations.length - 1].map((output, i) => {
@@ -138,14 +142,17 @@ export function NeuralNetwork(props: Props) {
                 });
             }
         }
-    };
+    }
+
+    // Train the network when the expected output is received
+    useEffect(() => {
+        if (props.isTraining && expectedOutput) {
+            train(expectedOutput);
+        }
+    }, [outputLayer]);
 
     if (!weights || !biases) {
         return <div>Loading...</div>;
-    }
-
-    function handleDrawingComplete() {
-        train(expectedOutput!); // Train network after each drawing
     }
 
     return (

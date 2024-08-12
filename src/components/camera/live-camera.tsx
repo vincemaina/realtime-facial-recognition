@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 
 interface LiveCameraProps {
     videoRef: React.RefObject<HTMLVideoElement>;

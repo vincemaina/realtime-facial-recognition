@@ -5,6 +5,8 @@ import { Frame } from "./frame";
 import { LiveCamera } from "./live-camera";
 import { ResizedFrame } from "./resized-frame";
 
+const RESIZED_IMAGE_SIZE = 100;
+
 export function LiveCameraController() {
 
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -40,6 +42,7 @@ export function LiveCameraController() {
                     setResizedImage={setResizedImage}
                     canvasRef={canvasRef}
                     screenshot={screenshot}
+                    imageSize={RESIZED_IMAGE_SIZE}
                 />
             </div>
         </div>

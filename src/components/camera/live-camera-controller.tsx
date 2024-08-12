@@ -5,7 +5,7 @@ import { Frame } from "./frame";
 import { LiveCamera } from "./live-camera";
 import { ResizedFrame } from "./resized-frame";
 
-export function LiveCameraContainer() {
+export function LiveCameraController() {
 
     const videoRef = useRef<HTMLVideoElement>(null);
 

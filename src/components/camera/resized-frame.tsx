@@ -27,7 +27,6 @@ export function ResizedFrame(props: Props) {
             const resizedDataURL = resizedCanvas.toDataURL('image/png');
             props.setResizedImage(resizedDataURL);
 
-            console.log('Resized image');
             const imageData = resizedContext.getImageData(0, 0, canvas.width, canvas.height);
 
             if (imageData.colorSpace !== 'srgb') {

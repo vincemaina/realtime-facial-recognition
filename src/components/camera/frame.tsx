@@ -12,9 +12,7 @@ interface FrameProps {
 
 export function Frame(props: FrameProps) {
     function takeScreenshot() {
-        if (props.videoRef.current && props.canvasRef.current) {
-            console.log('Taking screenshot');
-            
+        if (props.videoRef.current && props.canvasRef.current) {            
             const canvas = props.canvasRef.current;
             const video = props.videoRef.current;
             const context = canvas.getContext('2d')!;

@@ -7,6 +7,7 @@ interface Props {
     screenshot: string | null;
     imageSize: number;
     resizedImageRef: React.RefObject<HTMLCanvasElement>;
+    setImageData: React.Dispatch<React.SetStateAction<ImageData | null>>;
 }
 
 export function ResizedFrame(props: Props) {
@@ -25,8 +26,19 @@ export function ResizedFrame(props: Props) {
             resizedContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, imageSize, imageSize);
             const resizedDataURL = resizedCanvas.toDataURL('image/png');
             props.setResizedImage(resizedDataURL);
+
+            console.log('Resized image');
+            const imageData = resizedContext.getImageData(0, 0, canvas.width, canvas.height);
+
+            if (imageData.colorSpace !== 'srgb') {
+                alert('Image data is not in sRGB colour space');
+                return;
+            }
+
+            props.setImageData(imageData);
+
         };
-    }, [props]);
+    }, [props.screenshot]);
 
     return (
         <div>

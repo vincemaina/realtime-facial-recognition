@@ -51,19 +51,19 @@ export function LiveCameraController(props: Props) {
                         screenshot={screenshot}
                         imageSize={props.imageSize}
                         resizedImageRef={resizedImageRef}
+                        setImageData={props.setImageData}
                     />
                 </div>
             </div>
 
-            <div>
+            {/* <div>
                 <h3>Image data</h3>
 
                 <ImageData
                     imageData={props.imageData}
-                    setImageData={props.setImageData}
                     resizedImageRef={resizedImageRef}
                 />
-            </div>
+            </div> */}
         </>
     );
 }

@@ -1,35 +1,15 @@
 'use client';
 
-import { useEffect } from "react";
-
-interface Props {
-    resizedImageRef: React.RefObject<HTMLCanvasElement>;
-    imageData: ImageData | null;
-    setImageData: React.Dispatch<React.SetStateAction<ImageData | null>>;
-}
-
 export function flattenPixelData(pixelData: ImageData['data']): number[] {
     return Array.from(pixelData);
 }
 
+interface Props {
+    resizedImageRef: React.RefObject<HTMLCanvasElement>;
+    imageData: ImageData | null;
+}
+
 export function ImageData(props: Props) {
-
-    useEffect(() => {
-        if (props.resizedImageRef.current) {
-            const canvas = props.resizedImageRef.current;
-            const ctx = canvas.getContext('2d')!;
-
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-            if (imageData.colorSpace !== 'srgb') {
-                alert('Image data is not in sRGB colour space');
-                return;
-            }
-
-            props.setImageData(imageData);
-        }
-    }, [props]);
-
     return (
         <div>
             {props.imageData && (

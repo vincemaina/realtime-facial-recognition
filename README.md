@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# README
 
-## Getting Started
+## Demonstrations
 
-First, run the development server:
+### Getting a camera feed from a webcam
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The first step was getting a live feed from the webcam. Fortunately this can be done easily using the standard browser APIs. You can see the live feed from the web came in the left panel below.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then I had to configure the program to grab a frame from the webcam feed every N milliseconds. You see these frames being grabbed once a second in the right panel. The idea is that we'll extract the pixel data from these frames and use that to train our neural network.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+![alt text](screenshots/demo-1.gif)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+### Reducing the quality
 
-To learn more about Next.js, take a look at the following resources:
+Similar to my handwriting recogniser project, the idea is that this program will be able to run in the browser with no prior training, and have the user train it themselves.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+For this to be feasible, we want to reduce the complexity as much as possible, so that the network does not take forever to train.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+I've reduce the quality down to 64 by 64, which seems to be enough to tell two people apart, but much more managable for a neural network that we want to run in the browser.
 
-## Deploy on Vercel
+![alt text](screenshots/demo-2.gif)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Extracting image data from the image
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Now that we can have a frame from our webcame feed, and have reduced the quality to a suitable range, we can extract the pixel data from it. The pixel data produced is in srgb format, where red, green, blue, and white point values are represented by numbers ranging from 0 to 255. In other words, every pixel has four numbers associated with it, each ranging from 0 to 255.
+
+This means that even after reducing the image size to 64 x 64, were are still going to need 16,384 neurons in our input layer --- one for each of the data values in each of the pixels (numPixels is 64 x 64, and number of data values in each pixel is 4 i.e. red, green, blue, whitepoint.).
+
+The handwriting recogniser only used 36 neurons in its input layer. So this is clearly a much bigger neural network, and will require more training.
+
+Fortunately, as the network is trained on frames from a live webcame feed, which likely produces around 30fps natively, we can train our model a lot faster than we can could with the handwriting recogniser.
+
+![alt text](screenshots/demo-3.png)

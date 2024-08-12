@@ -6,11 +6,10 @@ import { LiveCamera } from "./live-camera";
 import { ResizedFrame } from "./resized-frame";
 import { ImageData } from "./image-data";
 
-const RESIZED_IMAGE_SIZE = 64;
-
 interface Props {
     imageData: ImageData | null;
     setImageData: React.Dispatch<React.SetStateAction<ImageData | null>>;
+    imageSize: number;
 }
 
 export function LiveCameraController(props: Props) {
@@ -50,7 +49,7 @@ export function LiveCameraController(props: Props) {
                         setResizedImage={setResizedImage}
                         canvasRef={frameRef}
                         screenshot={screenshot}
-                        imageSize={RESIZED_IMAGE_SIZE}
+                        imageSize={props.imageSize}
                         resizedImageRef={resizedImageRef}
                     />
                 </div>

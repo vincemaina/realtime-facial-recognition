@@ -29,7 +29,7 @@ export function FacialRecognitionController() {
                 Math.floor(pixelCount / 3 / 3 / 3),
                 NUM_OUTPUTS
             ],
-            learningRate: 0.25
+            learningRate: 0.1
         });
     }, [])
 

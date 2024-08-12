@@ -33,7 +33,7 @@ export function LiveCameraController(props: Props) {
                     <h3>Grab screenshot ever 1s</h3>
                     <Frame
                         videoRef={videoRef}
-                        frequency={20}
+                        frequency={5}
                         screenshot={screenshot}
                         setScreenshot={setScreenshot}
                         canvasRef={frameRef}

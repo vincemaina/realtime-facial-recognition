@@ -8,6 +8,10 @@ interface Props {
     setImageData: React.Dispatch<React.SetStateAction<ImageData | null>>;
 }
 
+export function flattenPixelData(pixelData: ImageData['data']): number[] {
+    return Array.from(pixelData);
+}
+
 export function ImageData(props: Props) {
 
     useEffect(() => {
@@ -25,10 +29,6 @@ export function ImageData(props: Props) {
             props.setImageData(imageData);
         }
     }, [props]);
-
-    function flattenPixelData(pixelData: ImageData['data']) {
-        return Array.from(pixelData);
-    }
 
     return (
         <div>

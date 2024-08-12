@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import { Frame } from "./frame";
 import { LiveCamera } from "./live-camera";
 import { ResizedFrame } from "./resized-frame";
-import { ImageData } from "./image-data";
 
 interface Props {
     imageData: ImageData | null;
@@ -34,7 +33,7 @@ export function LiveCameraController(props: Props) {
                     <h3>Grab screenshot ever 1s</h3>
                     <Frame
                         videoRef={videoRef}
-                        frequency={1}
+                        frequency={5}
                         screenshot={screenshot}
                         setScreenshot={setScreenshot}
                         canvasRef={frameRef}

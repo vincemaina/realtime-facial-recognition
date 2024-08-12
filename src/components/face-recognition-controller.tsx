@@ -8,6 +8,8 @@ import { ConfidenceMeterList } from "./neural-network/confidence-meter-list";
 
 const RESIZED_IMAGE_SIZE = 64;
 
+const NUM_OUTPUTS = 2;
+
 export function FacialRecognitionController() {
 
     const [imageData, setImageData] = useState<ImageData | null>(null);
@@ -16,20 +18,32 @@ export function FacialRecognitionController() {
     const [expectedOutput, setExpectedOutput] = useState<number[] | null>(null);
     const [labels, setLabels] = useState<string[]>();
     const [isTraining, setIsTraining] = useState<boolean>(false);
+    const [output, setOutput] = useState<number>(0);
 
     // Produce input layer from image data
     useEffect(() => {
-        if (imageData) {
-            console.log('Image data:', imageData);
-            
+        if (imageData) {            
             setInputLayer(flattenPixelData(imageData.data));
         }
     }, [imageData]);
+
+    // Set expected output based on output
+    useEffect(() => {
+        if (output === 0) {
+            setExpectedOutput([1, 0]);
+        } else {
+            setExpectedOutput([0, 1]);
+        }
+    }, [output]);
 
     return (
         <div>
             <button className="bg-black text-white p-3" onClick={() => setIsTraining(!isTraining)}>
                 {isTraining ? 'Stop training' : 'Start training'}
+            </button>
+
+            <button className="bg-black text-white p-3" onClick={() => setOutput((output + 1) % NUM_OUTPUTS)}>
+                Output: {output} {JSON.stringify(expectedOutput)}
             </button>
 
             <NeuralNetwork

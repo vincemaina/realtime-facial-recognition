@@ -20,9 +20,16 @@ export function FacialRecognitionController() {
     const [output, setOutput] = useState<number>(0);
 
     useEffect(() => {
+        const pixelCount = RESIZED_IMAGE_SIZE * RESIZED_IMAGE_SIZE * 4
         NeuralNetwork.initialize({
-            layers: [RESIZED_IMAGE_SIZE * RESIZED_IMAGE_SIZE * 4, 64, NUM_OUTPUTS],
-            learningRate: 0.5
+            layers: [
+                pixelCount,
+                Math.floor(pixelCount / 3),
+                Math.floor(pixelCount / 3 / 3),
+                Math.floor(pixelCount / 3 / 3 / 3),
+                NUM_OUTPUTS
+            ],
+            learningRate: 0.25
         });
     }, [])
 

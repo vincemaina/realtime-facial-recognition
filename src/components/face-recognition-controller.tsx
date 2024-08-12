@@ -15,6 +15,7 @@ export function FacialRecognitionController() {
     const [outputLayer, setOutputLayer] = useState<number[] | null>(null);
     const [expectedOutput, setExpectedOutput] = useState<number[] | null>(null);
     const [labels, setLabels] = useState<string[]>();
+    const [isTraining, setIsTraining] = useState<boolean>(false);
 
     // Produce input layer from image data
     useEffect(() => {
@@ -27,6 +28,10 @@ export function FacialRecognitionController() {
 
     return (
         <div>
+            <button className="bg-black text-white p-3" onClick={() => setIsTraining(!isTraining)}>
+                {isTraining ? 'Stop training' : 'Start training'}
+            </button>
+
             <NeuralNetwork
                 layers={[RESIZED_IMAGE_SIZE * RESIZED_IMAGE_SIZE * 4, 100, 2]}
                 learningRate={0.1}
@@ -34,6 +39,7 @@ export function FacialRecognitionController() {
                 outputLayer={outputLayer}
                 setOutputLayer={setOutputLayer}
                 expectedOutput={expectedOutput}
+                isTraining={isTraining}
             />
 
             <ConfidenceMeterList

@@ -46,7 +46,7 @@ export function Frame(props: FrameProps) {
     }, []);
 
     return (
-        <div className="flex-auto">
+        <div>
             <canvas ref={props.canvasRef} className='hidden' />
 
             {props.screenshot && (

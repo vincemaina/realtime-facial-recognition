@@ -16,20 +16,32 @@ export function LiveCameraController() {
 
     return (
         <div className="flex gap-2 items-center">
-            <LiveCamera videoRef={videoRef}/>
-            <Frame
-                videoRef={videoRef}
-                frequency={2}
-                screenshot={screenshot}
-                setScreenshot={setScreenshot}
-                canvasRef={canvasRef}
-            />
-            <ResizedFrame
-                resizedImage={resizedImage}
-                setResizedImage={setResizedImage}
-                canvasRef={canvasRef}
-                screenshot={screenshot}
-            />
+            <div>
+                <h3>Live camera feed</h3>
+                <LiveCamera videoRef={videoRef}/>
+            </div>
+            
+            <div>
+                <h3>Grab screenshot ever 1s</h3>
+                <Frame
+                    videoRef={videoRef}
+                    frequency={1}
+                    screenshot={screenshot}
+                    setScreenshot={setScreenshot}
+                    canvasRef={canvasRef}
+                />
+            </div>
+            
+            <div>
+                <h3>Reduce screenshot resolution</h3>
+
+                <ResizedFrame
+                    resizedImage={resizedImage}
+                    setResizedImage={setResizedImage}
+                    canvasRef={canvasRef}
+                    screenshot={screenshot}
+                />
+            </div>
         </div>
     );
 }

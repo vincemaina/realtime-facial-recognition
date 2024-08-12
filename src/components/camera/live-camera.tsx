@@ -32,7 +32,7 @@ export function LiveCamera(props: LiveCameraProps) {
     }, []);
 
     return (
-        <div className='aspect-video flex-auto'>
+        <div className='aspect-video'>
             <video
                 ref={props.videoRef}
                 autoPlay

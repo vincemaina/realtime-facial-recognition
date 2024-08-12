@@ -1,13 +1,14 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface Props {
     resizedImageRef: React.RefObject<HTMLCanvasElement>;
+    imageData: ImageData | null;
+    setImageData: React.Dispatch<React.SetStateAction<ImageData | null>>;
 }
 
 export function ImageData(props: Props) {
-    const [imageData, setImageData] = useState<ImageData | null>(null);
 
     useEffect(() => {
         if (props.resizedImageRef.current) {
@@ -21,7 +22,7 @@ export function ImageData(props: Props) {
                 return;
             }
 
-            setImageData(imageData);
+            props.setImageData(imageData);
         }
     }, [props]);
 
@@ -31,14 +32,14 @@ export function ImageData(props: Props) {
 
     return (
         <div>
-            {imageData && (
+            {props.imageData && (
                 <div className="font-mono text-xs">
                     <h3>Image data</h3>
-                    <p>Width: {imageData.width}</p>
-                    <p>Height: {imageData.height}</p>
-                    <p>Colour space: {imageData.colorSpace}</p>
-                    <p>Pixel count: {imageData.data.length}</p>
-                    <p>Pixel data: {JSON.stringify(flattenPixelData(imageData.data), undefined, 2)}</p>
+                    <p>Width: {props.imageData.width}</p>
+                    <p>Height: {props.imageData.height}</p>
+                    <p>Colour space: {props.imageData.colorSpace}</p>
+                    <p>Pixel count: {props.imageData.data.length}</p>
+                    <p>Pixel data: {JSON.stringify(flattenPixelData(props.imageData.data), undefined, 2)}</p>
                 </div>
             )}
         </div>

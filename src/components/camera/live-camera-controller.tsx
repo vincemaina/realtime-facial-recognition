@@ -8,7 +8,12 @@ import { ImageData } from "./image-data";
 
 const RESIZED_IMAGE_SIZE = 64;
 
-export function LiveCameraController() {
+interface Props {
+    imageData: ImageData | null;
+    setImageData: React.Dispatch<React.SetStateAction<ImageData | null>>;
+}
+
+export function LiveCameraController(props: Props) {
 
     const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -55,6 +60,8 @@ export function LiveCameraController() {
                 <h3>Image data</h3>
 
                 <ImageData
+                    imageData={props.imageData}
+                    setImageData={props.setImageData}
                     resizedImageRef={resizedImageRef}
                 />
             </div>

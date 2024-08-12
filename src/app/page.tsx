@@ -1,9 +1,9 @@
-import { LiveCameraController } from "@/components/camera/live-camera-controller";
+import { FacialRecognitionController } from "@/components/face-recognition-controller";
 
 export default function Home() {
   return (
     <div>
-      <LiveCameraController/>
+      <FacialRecognitionController/>
     </div>
   );
 }

@@ -150,7 +150,7 @@ export function NeuralNetwork(props: Props) {
 
     return (
         <div className="flex gap-10 justify-center items-center select-none">
-            <pre>{JSON.stringify({weights, biases}, undefined, 2)}</pre>
+            Neural network
         </div>
     );
 }

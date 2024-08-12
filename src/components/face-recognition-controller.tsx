@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { LiveCameraController } from "./camera/live-camera-controller";
 import { NeuralNetwork } from "./neural-network/neural-network";
 import { flattenPixelData } from "./camera/image-data";
+import { ConfidenceMeterList } from "./neural-network/confidence-meter-list";
 
 const RESIZED_IMAGE_SIZE = 64;
 
@@ -13,10 +14,13 @@ export function FacialRecognitionController() {
     const [inputLayer, setInputLayer] = useState<number[] | null>(null);
     const [outputLayer, setOutputLayer] = useState<number[] | null>(null);
     const [expectedOutput, setExpectedOutput] = useState<number[] | null>(null);
+    const [labels, setLabels] = useState<string[]>();
 
     // Produce input layer from image data
     useEffect(() => {
         if (imageData) {
+            console.log('Image data:', imageData);
+            
             setInputLayer(flattenPixelData(imageData.data));
         }
     }, [imageData]);
@@ -24,14 +28,19 @@ export function FacialRecognitionController() {
     return (
         <div>
             <NeuralNetwork
-                layers={[RESIZED_IMAGE_SIZE * RESIZED_IMAGE_SIZE, 100, 10]}
+                layers={[RESIZED_IMAGE_SIZE * RESIZED_IMAGE_SIZE * 4, 100, 2]}
                 learningRate={0.1}
                 inputLayer={inputLayer}
                 outputLayer={outputLayer}
                 setOutputLayer={setOutputLayer}
                 expectedOutput={expectedOutput}
             />
-            
+
+            <ConfidenceMeterList
+                outputLayer={outputLayer}
+                labels={labels}
+            />
+
             <LiveCameraController
                 imageData={imageData}
                 setImageData={setImageData}

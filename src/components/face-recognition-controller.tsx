@@ -24,7 +24,6 @@ export function FacialRecognitionController() {
         NeuralNetwork.initialize({
             layers: [
                 pixelCount,
-                Math.floor(pixelCount / 3),
                 Math.floor(pixelCount / 3 / 3),
                 Math.floor(pixelCount / 3 / 3 / 3),
                 NUM_OUTPUTS

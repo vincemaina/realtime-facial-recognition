@@ -2,19 +2,20 @@
 
 import { useRef, useEffect } from 'react';
 
-export function Camera() {
-    
-    const videoRef = useRef<HTMLVideoElement>(null);
+interface LiveCameraProps {
+    videoRef: React.RefObject<HTMLVideoElement>;
+}
+
+export function LiveCamera(props: LiveCameraProps) {
 
     useEffect(() => {
-
-        const video = videoRef.current;
+        const video = props.videoRef.current;
 
         async function getVideo() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                if (videoRef.current) {
-                    videoRef.current.srcObject = stream;
+                if (props.videoRef.current) {
+                    props.videoRef.current.srcObject = stream;
                 }
             } catch (err) {
                 console.error("Error accessing webcam:", err);
@@ -31,9 +32,9 @@ export function Camera() {
     }, []);
 
     return (
-        <div className='h-[500px] aspect-video'>
+        <div className='aspect-video flex-auto'>
             <video
-                ref={videoRef}
+                ref={props.videoRef}
                 autoPlay
                 className='bg-black h-full w-full'
             />

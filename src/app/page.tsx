@@ -1,9 +1,9 @@
-import { Camera } from "@/components/camera";
+import { LiveCameraContainer } from "@/components/camera/live-camera-container";
 
 export default function Home() {
   return (
     <div>
-      <Camera/>
+      <LiveCameraContainer/>
     </div>
   );
 }

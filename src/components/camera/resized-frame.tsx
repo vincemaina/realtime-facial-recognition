@@ -40,7 +40,7 @@ export function ResizedFrame(props: Props) {
     }, [props.screenshot]);
 
     return (
-        <div>
+        <div className="hidden">
             <canvas ref={props.resizedImageRef} className='hidden' />
 
             {props.resizedImage && (

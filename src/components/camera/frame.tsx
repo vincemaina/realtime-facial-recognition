@@ -44,7 +44,7 @@ export function Frame(props: FrameProps) {
     }, []);
 
     return (
-        <div>
+        <div className="hidden">
             <canvas ref={props.canvasRef} className='hidden' />
 
             {props.screenshot && (

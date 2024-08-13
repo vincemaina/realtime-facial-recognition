@@ -1,14 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { LiveCameraController } from "./camera/live-camera-controller";
 import { flattenPixelData } from "./camera/image-data";
 import { ConfidenceMeterList } from "./neural-network/confidence-meter-list";
-import { NeuralNetwork } from "./neural-network/neural-network";
 
-const RESIZED_IMAGE_SIZE = 64;
-
+const RESIZED_IMAGE_SIZE = 40;
 const NUM_OUTPUTS = 2;
+
 
 export function FacialRecognitionController() {
 
@@ -18,32 +17,42 @@ export function FacialRecognitionController() {
     const [labels, setLabels] = useState<string[]>();
     const [isTraining, setIsTraining] = useState<boolean>(false);
     const [output, setOutput] = useState<number>(0);
+    const [worker, setWorker] = useState<Worker | null>(null);
 
     useEffect(() => {
-        const pixelCount = RESIZED_IMAGE_SIZE * RESIZED_IMAGE_SIZE * 4
-        NeuralNetwork.initialize({
-            layers: [
-                pixelCount,
-                Math.floor(pixelCount / 3 / 3),
-                Math.floor(pixelCount / 3 / 3 / 3),
-                NUM_OUTPUTS
-            ],
-            learningRate: 0.1
-        });
+        const newWorker = new Worker('worker.js');
+
+        // Set up event listener for messages from the worker
+        newWorker.onmessage = function (event) {
+            // console.log('Received result from worker:', event.data);
+            setOutputLayer(event.data);
+        };
+
+        setWorker(newWorker);
+
+        // Clean up the worker when the component unmounts
+        return () => {
+            newWorker.terminate();
+        };
     }, [])
 
     // Produce input layer from image data
     useEffect(() => {
         if (imageData) {            
             const inputLayer = flattenPixelData(imageData.data);
-            
-            if (isTraining) {
-                if (!expectedOutput) {
-                    throw new Error('Expected output not set');
+
+            // Send a message to the worker
+            if (worker) {
+                if (isTraining) {
+                    if (!expectedOutput) {
+                        throw new Error('Expected output not set');
+                    }
                 }
-                setOutputLayer(NeuralNetwork.instance.train(inputLayer, expectedOutput));
-            } else {
-                setOutputLayer(NeuralNetwork.instance.predict(inputLayer));
+                worker.postMessage(JSON.stringify({
+                    type: isTraining ? 'train' : 'predict',
+                    data: inputLayer,
+                    expected: isTraining ? expectedOutput : null
+                }));
             }
         }
     }, [imageData]);

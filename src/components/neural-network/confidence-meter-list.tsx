@@ -22,7 +22,7 @@ export function ConfidenceMeterList(props: Props) {
                     }
 
                     <div className="h-100% w-96 relative bg-neutral-100">
-                        <div className="absolute inset-0 bg-green-400" style={{ width: `${value}%` }} />
+                        <div className="absolute left-0 top-0 h-full w-full bg-green-400 transition-all duration-75" style={{ transform: `scaleX(${value / 100})` }} />
                     </div>
 
                     <span>{value.toFixed(0)}%</span>

@@ -32,3 +32,12 @@ The handwriting recogniser only used 36 neurons in its input layer. So this is c
 Fortunately, as the network is trained on frames from a live webcame feed, which likely produces around 30fps natively, we can train our model a lot faster than we can could with the handwriting recogniser.
 
 ![alt text](screenshots/demo-3.png)
+
+
+### Early test with neural network
+
+- Had to move neural network into a webworker to avoid rendering issues on page.
+- Reducing image resolution down to 40x40 also helped
+- Possible to train images with drastically different features e.g. covering camera with hand vs sat in front of camera
+
+![alt text](face-recognition.gif)
